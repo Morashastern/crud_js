@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    UserName<input id="uname">
+    Email<input id="uemail">
+    <button onclick="add_user()">add user</button>
+
+    <div id="display"></div>
+
+
+
+
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <script>
+
+        const MY_SERVER = "https://jsonplaceholder.typicode.com/users/"
+        axios.get(MY_SERVER).then((res) => console.log(res.data))
+
+        const loadData = async () => {
+            const res = await axios.get(MY_SERVER)
+            display.innerHTML = res.data.map(user => `<button onclick=del_user(${user.id})>${user.id}</button>
+            <h1> 
+                id: ${user.id}
+                <br>
+                UserName: ${user.username}
+                <br>
+                Email: ${user.email}
+                </h1>`).join("")
+            console.log(res.data)
+
+        }
+        loadData()
+
+
+        const add_user = () => {
+            axios.post(MY_SERVER, { username: uname.value, email: uemail.value }).then((res) => console.log(res.data))
+
+
+        }
+        const del_prod = (id) => {
+            console.log(id)
+            axios.delete(MY_SERVER + id).then((res) => console.log(res.data))
+        }
+
+    </script>
+
+</body>
+
+</html>
